@@ -1,0 +1,249 @@
+# dcmonitor configuration.
+# Copy this file to config.toml in the same folder and fill in real values.
+# config.toml is excluded from git and is copied to the VM by hand.
+
+[display]
+# Times are stored in UTC and shown in local time. Turkey is UTC+3 all year.
+utc_offset_hours = 3
+
+[storage]
+database = "dcmonitor.db"       # relative to the program folder
+log_folder = "logs"             # program log files, rotated daily
+site_map = "site_map.toml"      # floor layout for the Floor map tab
+
+[polling]
+# Old units (AC-2..AC-6): Boa web server
+old_ac_event_interval_s = 90    # HEAD on /tmp/statusreport.xml
+old_ac_values_interval_s = 120  # index.html values
+old_ac_timeout_s = 35           # these units stall for ~30s at random
+old_ac_clock_utc_offset_hours = 3   # their event log uses local time (site local time)
+
+# New units (AC-1, AC-7..AC-10): Vertiv iCOM
+new_ac_values_interval_s = 15   # getvar.csv: temperature, setpoint, humidity
+new_ac_events_interval_s = 30   # alarms.cgi event log
+new_ac_timeout_s = 15
+new_ac_max_query_chars = 480    # unit drops requests above ~510 characters
+new_ac_clock_utc_offset_hours = 3   # event log says +00:00 but the clock is local
+
+# UPS 1..5: SNMP v1
+ups_interval_s = 10
+ups_details_interval_s = 60     # UPS tab: names, versions, battery, bypass; absent = 60
+ups_timeout_s = 2
+ups_retries = 2
+
+unreachable_after_failures = 5  # raise "device unreachable" after this many
+
+# Generators: DSE8610 MKII over Modbus TCP, read-only
+generator_interval_s = 30
+
+[retention]
+readings_days = 365
+circuit_history_days = 30       # per-circuit amps for the circuit follower; absent = 30
+alarms_days = 365
+unit_events_days = 365
+poll_log_days = 30
+
+[thresholds]
+ac_alarm_above_setpoint_c = 3   # alarm at setpoint + 3 C
+ac_clear_above_setpoint_c = 3   # clear below setpoint + 3 C
+ac_alarm_delay_s = 60           # must stay at the limit this long before alarming
+new_ac_return_alarm_c = 35      # new units (AC-1, AC-7..AC-10): fixed return limit
+ups_battery_temp_alarm_c = 30
+generator_fuel_low_pct = ""     # empty = off; a number turns the low-fuel alarm on
+generator_battery_low_v = ""    # empty = off; e.g. 12.0 for a 12 V battery system
+ups_battery_charge_alarm_below_pct = 70   # on-battery is caught by output source, so this is a low-charge alarm
+ups_input_voltage_alarm_below_v = 190     # any input phase below this raises an alarm; empty = off; absent = 190
+
+[events]
+# Event IDs from the new units that are routine and must not sound the alarm.
+# Everything else is treated as an alarm. Add IDs here when a harmless event
+# makes noise. Descriptions are in dcmonitor/event_descriptions.py.
+informational_ids = [
+  152,   # Ultracap Active
+  153,   # Power On
+  154,   # Power Off
+  155,   # Unit On
+  156,   # Unit Off
+  206,   # Unit Off by Display
+  212,   # Unit Standby Mode
+]
+
+[snmp]
+community = "public"
+
+# ---------------------------------------------------------------- AC units
+# generation = "old": Boa web server, statusreport.xml + index.html
+# generation = "new": Vertiv iCOM, getvar.csv and alarms.cgi on the unit's IP
+
+[[ac]]
+name = "AC-1"
+generation = "new"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-2"
+generation = "old"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-3"
+generation = "old"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-4"
+generation = "old"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-5"
+generation = "old"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-6"
+generation = "old"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-7"
+generation = "new"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-8"
+generation = "new"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-9"
+generation = "new"
+ip = "<IP>"
+
+[[ac]]
+name = "AC-10"
+generation = "new"
+ip = "<IP>"
+
+# ---------------------------------------------------------------- UPS
+[[ups]]
+name = "UPS 1"
+ip = "<IP>"
+
+[[ups]]
+name = "UPS 2"
+ip = "<IP>"
+
+[[ups]]
+name = "UPS 3"
+ip = "<IP>"
+
+[[ups]]
+name = "UPS 4"
+ip = "<IP>"
+
+[[ups]]
+name = "UPS 5"
+ip = "<IP>"
+
+# ---------------------------------------------------------------- generators
+# Unit IDs match DSE Scada Suite. The controllers answer on any ID, so check
+# each IP against Scada Suite's file: a swapped IP would show the wrong
+# generator's values under this name.
+
+[[generator]]
+name = "GEN1"
+ip = "<IP>"
+unit = 11
+
+[[generator]]
+name = "GEN2"
+ip = "<IP>"
+unit = 12
+
+[[generator]]
+name = "GEN3"
+ip = "<IP>"
+unit = 13
+
+# ---------------------------------------------------------------- PDUs read directly
+# PDUs listed in pdus.toml (first exported from Power IQ, now kept by hand:
+# name, id, IP, rack, model, family) and read directly over SNMP
+# v2c, read only: Raritan PX2/PX3 (raritan_px2), Raritan PX1 (raritan_px1),
+# Geist/Vertiv (geist) and APC AP8881 (apc). Power, every breaker or phase
+# (a tripped breaker is a real alarm at once on the Raritan PDUs; Geist and
+# APC have no trip state), temperature probes.
+#
+# A PDU whose read community differs from the others gets its own line in
+# pdus.toml, under its [[pdu]]: community = "<ITS-READ-COMMUNITY>" (kept when
+# the file is edited). A PDU that should raise no alarms (work on it, a
+# test unit) is put in maintenance from its rack's popup on the floor map;
+# that is stored in the database, not in a file.
+
+[pdus]
+file = "pdus.toml"     # the PDU list, next to config.toml
+interval_s = 30        # seconds between rounds (all PDUs, 8 at a time)
+timeout_s = 3          # seconds to wait for each PDU's answer
+alarm_after_failures = 3   # "not answering" alarm after this many failed reads in a row (1 = at once)
+community = "<READ-COMMUNITY>"   # read community of every PDU (absent: the [[pdu_sensor]] one)
+
+# Rules for the PDU readings.
+rack_temp_alarm_c = ""           # empty = rack alarm off; a number turns it on
+breaker_alarm_pct = 90           # red alarm with sound at this % of a breaker's limit; empty = off
+breaker_warning_pct = 80         # amber notice, one soft sound; empty = off; absent = 80
+breaker_highlight_pct = 45       # colour on the floor map only, no sound; empty = off; absent = 45
+default_breaker_limit_a = 16     # limit where the PDU gives no rating (Geist breakers)
+# Circuit follower: each circuit and PDU inlet against its normal.
+follow_drop_min_a = 0.1          # a circuit normally at or above this is watched: alarm when it
+                                 # drops to zero (reads 0.0 A), notice when it gives no reading;
+                                 # empty = both off
+follow_readings = 2              # new readings in a row before anything is raised
+follow_normal_days = 7           # a circuit's normal = its average over this many days (max 28)
+follow_stale_after_s = 10800     # "no new reading" notice for a PDU after this long
+
+# ---------------------------------------------------------------- PDU probes
+# Single temperature probes on PDUs that are not in pdus.toml (on site:
+# PDUs Power IQ does not know). An entry whose PDU is read
+# directly ([pdus]) is skipped: that PDU's probes come with its readings.
+#
+# How dcmonitor uses them:
+#   - Each probe is read every interval_s seconds over SNMP v2c (read only).
+#   - A rack shows a PDU read directly (pdus.toml) first,
+#     then this probe.
+#   - Clicking a rack on the floor map shows which source its value came from.
+#
+# The [pdu_sensors] section below appears ONCE: settings shared by all probes.
+# The [[pdu_sensor]] block appears once PER PROBE; copy it for each rack.
+# To stop reading PDUs directly, remove every [[pdu_sensor]] block.
+
+[pdu_sensors]
+community = "<READ-COMMUNITY>"   # SNMP read community shared by these PDUs
+interval_s = 300                 # seconds between readings
+timeout_s = 3                    # seconds to wait for each PDU's answer
+
+# One block per rack:
+#   rack       rack number, as on the floor map and in Power IQ
+#   ip         the PDU the probe is plugged into
+#   community  optional: only if this PDU uses a different read community
+#
+# Which probe is read, if the PDU has more than one:
+#   leave both lines out   automatic: the available probe, the warmer if several
+#   serial = "..."         a fixed probe, by the Device ID on the PDU's web page
+#   probe = 2              a fixed probe, by its SNMP position (not the web
+#                          page's order, which can differ)
+
+[[pdu_sensor]]
+rack = 0
+ip = "<IP>"
+
+# ---------------------------------------------------------------------------
+# Cabinet list: the Excel workbook (.xlsx) of devices per rack, one sheet per
+# rack named by its number (U/Cabinet | devices | PDU columns). The rack
+# popup's Devices button draws the rack as on its sheet, with each PDU
+# outlet's current from the PDU. Read only: the file is copied into memory and
+# closed at once, never written or locked. Optional: absent = no Devices button.
+[cabinet_list]
+# Single quotes keep the backslashes of a share path as written.
+file = '\\<server>\<share>\<folder>\<name>.xlsx'
+check_interval_s = 5             # how often the file's time and size are checked;
+                                 # it is read again only when they change (1-3600)

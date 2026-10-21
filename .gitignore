@@ -1,0 +1,36 @@
+# Never in the repository: site data with IPs, communities, passwords,
+# customer names, or the site layout. Each machine keeps its own copy.
+config.toml
+config.toml.bak
+pdus.toml
+pdus.toml.bak
+site_map.toml
+*.bak
+
+# History database and its SQLite side files
+*.db
+*.db-wal
+*.db-shm
+
+# Program logs
+logs/
+
+# Virtual environment, created separately on each machine
+venv/
+
+# Python bytecode cache
+__pycache__/
+
+# Code graph built on the Mac (graphify), rebuilt from the code
+graphify-out/
+
+# Local tool settings
+.claude/
+
+# macOS / Windows folder metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Project notes for the AI assistant, site details: not published
+CLAUDE.md
