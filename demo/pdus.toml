@@ -1,0 +1,193 @@
+# Demo PDUs: two per rack, simulated by dcmonitor/demo.py (no real device).
+
+[[pdu]]
+id = 1
+name = "DEMO01-PDU01"
+ip = "demo-pdu-01"
+rack = 1
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 2
+name = "DEMO01-PDU02"
+ip = "demo-pdu-02"
+rack = 1
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 3
+name = "DEMO02-PDU01"
+ip = "demo-pdu-03"
+rack = 2
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 4
+name = "DEMO02-PDU02"
+ip = "demo-pdu-04"
+rack = 2
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 5
+name = "DEMO03-PDU01"
+ip = "demo-pdu-05"
+rack = 3
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 6
+name = "DEMO03-PDU02"
+ip = "demo-pdu-06"
+rack = 3
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 7
+name = "DEMO04-PDU01"
+ip = "demo-pdu-07"
+rack = 4
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 8
+name = "DEMO04-PDU02"
+ip = "demo-pdu-08"
+rack = 4
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 9
+name = "DEMO05-PDU01"
+ip = "demo-pdu-09"
+rack = 5
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 10
+name = "DEMO05-PDU02"
+ip = "demo-pdu-10"
+rack = 5
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 11
+name = "DEMO06-PDU01"
+ip = "demo-pdu-11"
+rack = 6
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 12
+name = "DEMO06-PDU02"
+ip = "demo-pdu-12"
+rack = 6
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 13
+name = "DEMO07-PDU01"
+ip = "demo-pdu-13"
+rack = 7
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 14
+name = "DEMO07-PDU02"
+ip = "demo-pdu-14"
+rack = 7
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 15
+name = "DEMO08-PDU01"
+ip = "demo-pdu-15"
+rack = 8
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 16
+name = "DEMO08-PDU02"
+ip = "demo-pdu-16"
+rack = 8
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 17
+name = "DEMO09-PDU01"
+ip = "demo-pdu-17"
+rack = 9
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 18
+name = "DEMO09-PDU02"
+ip = "demo-pdu-18"
+rack = 9
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 19
+name = "DEMO10-PDU01"
+ip = "demo-pdu-19"
+rack = 10
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 20
+name = "DEMO10-PDU02"
+ip = "demo-pdu-20"
+rack = 10
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 21
+name = "DEMO11-PDU01"
+ip = "demo-pdu-21"
+rack = 11
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 22
+name = "DEMO11-PDU02"
+ip = "demo-pdu-22"
+rack = 11
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 23
+name = "DEMO12-PDU01"
+ip = "demo-pdu-23"
+rack = 12
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"
+
+[[pdu]]
+id = 24
+name = "DEMO12-PDU02"
+ip = "demo-pdu-24"
+rack = 12
+family = "raritan_px2"
+model = "Demo PDU, 20 outlets, 2 x 16 A"

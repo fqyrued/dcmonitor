@@ -34,3 +34,8 @@ desktop.ini
 
 # Project notes for the AI assistant, site details: not published
 CLAUDE.md
+
+# The demo's sample files are made up and are published
+!demo/config.toml
+!demo/pdus.toml
+!demo/site_map.toml

@@ -1,0 +1,105 @@
+# Demo configuration: every device here is simulated by dcmonitor/demo.py.
+# The "ip" values are made-up names, not addresses; the demo also blocks all
+# network access, so it never reaches a real device.
+
+[display]
+utc_offset_hours = 3
+
+[storage]
+database = "demo.db"            # replaced by a temporary file when the demo runs
+log_folder = "logs"
+site_map = "site_map.toml"
+
+[polling]
+old_ac_event_interval_s = 30
+old_ac_values_interval_s = 10
+old_ac_timeout_s = 5
+old_ac_clock_utc_offset_hours = 3
+new_ac_values_interval_s = 5
+new_ac_events_interval_s = 30
+new_ac_timeout_s = 5
+new_ac_max_query_chars = 480
+new_ac_clock_utc_offset_hours = 3
+ups_interval_s = 5
+ups_details_interval_s = 30
+ups_timeout_s = 2
+ups_retries = 1
+unreachable_after_failures = 5
+generator_interval_s = 10
+
+[retention]
+readings_days = 365
+circuit_history_days = 30
+alarms_days = 365
+unit_events_days = 365
+poll_log_days = 30
+
+[thresholds]
+ac_alarm_above_setpoint_c = 3
+ac_clear_above_setpoint_c = 3
+ac_alarm_delay_s = 60
+new_ac_return_alarm_c = 35
+ups_battery_temp_alarm_c = 30
+generator_fuel_low_pct = 20
+generator_battery_low_v = 12.0
+ups_battery_charge_alarm_below_pct = 70
+ups_input_voltage_alarm_below_v = 190
+
+[events]
+informational_ids = [152, 153, 154, 155, 156, 206, 212]
+
+[snmp]
+community = "public"
+
+[[ac]]
+name = "AC-1"
+generation = "new"
+ip = "demo-ac-1"
+
+[[ac]]
+name = "AC-2"
+generation = "old"
+ip = "demo-ac-2"
+
+[[ac]]
+name = "AC-3"
+generation = "old"
+ip = "demo-ac-3"
+
+[[ac]]
+name = "AC-4"
+generation = "new"
+ip = "demo-ac-4"
+
+[[ups]]
+name = "UPS 1"
+ip = "demo-ups-1"
+
+[[ups]]
+name = "UPS 2"
+ip = "demo-ups-2"
+
+[[generator]]
+name = "GEN1"
+ip = "demo-gen-1"
+unit = 11
+
+[pdus]
+file = "pdus.toml"
+interval_s = 10
+timeout_s = 3
+alarm_after_failures = 3
+community = "public"
+rack_temp_alarm_c = ""
+breaker_alarm_pct = 90
+breaker_warning_pct = 80
+breaker_highlight_pct = 45
+default_breaker_limit_a = 16
+follow_drop_min_a = 0.1
+follow_readings = 2
+follow_normal_days = 7
+follow_stale_after_s = 10800
+
+[cabinet_list]
+file = "cabinet_list.xlsx"      # written by the demo into a temporary folder
+check_interval_s = 5
